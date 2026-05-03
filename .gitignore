@@ -1,0 +1,26 @@
+# Binarios y temporales de Go
+src/temp_cv.html
+src/cv-generator
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Archivos de datos personales (Ignorados para repositorio público)
+cv_data.json
+jos/
+
+
+# Referencias externas
+references/
+
+# PDFs generados
+*.pdf
+
+# Configuración de IDEs
+.vscode/
+.idea/
+.DS_Store
+
+*.json

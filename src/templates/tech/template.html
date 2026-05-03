@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Curriculum Vitae</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-violet: #8e44ad;
+            --secondary-violet: #2c3e50;
+            --accent-orange: #e67e22;
+            --bg-dark: #1e1e1e;
+            --sidebar-bg: #2d3436;
+            --text-main: #2d3436;
+            --text-light: #636e72;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #dfe6e9;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            background: var(--white);
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        /* Profile Picture */
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-orange);
+            margin: 0 auto 20px auto;
+            display: block;
+            object-fit: cover;
+            background: var(--white);
+        }
+
+        /* Sidebar - Violet/Dark */
+        .sidebar {
+            background: var(--sidebar-bg);
+            color: var(--white);
+            padding: 40px 30px;
+            border-right: 4px solid var(--primary-violet);
+        }
+
+        .sidebar h3 {
+            color: var(--accent-orange);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 30px 0 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        .contact-item {
+            font-size: 0.8em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-item i {
+            color: var(--accent-orange);
+            width: 15px;
+        }
+
+        /* Main Content */
+        .main {
+            padding: 50px;
+        }
+
+        .header {
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 3em;
+            font-weight: 800;
+            color: var(--primary-violet);
+            line-height: 1;
+        }
+
+        .header h2 {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: var(--accent-orange);
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        .bio {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: var(--text-light);
+            margin-top: 20px;
+            text-align: justify;
+        }
+
+        /* Sections */
+        .section-title {
+            font-size: 1.4em;
+            font-weight: 800;
+            color: var(--primary-violet);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 40px 0 20px 0;
+        }
+
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-violet), transparent);
+        }
+
+        .exp-item {
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid #eee;
+        }
+
+        .exp-item::before {
+            content: "";
+            position: absolute;
+            left: -6px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-orange);
+            border-radius: 50%;
+        }
+
+        .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .exp-company {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: var(--secondary-violet);
+        }
+
+        .exp-date {
+            font-size: 0.8em;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-orange);
+        }
+
+        .exp-role {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--primary-violet);
+            margin: 2px 0 10px 0;
+        }
+
+        .exp-content {
+            font-size: 0.85em;
+            color: var(--text-main);
+        }
+
+        .exp-content ul {
+            padding-left: 15px;
+            margin: 10px 0;
+        }
+
+        /* Skills Tags */
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: rgba(142, 68, 173, 0.1);
+            color: var(--primary-violet);
+            border: 1px solid var(--primary-violet);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .sidebar .tag {
+            background: rgba(230, 126, 34, 0.1);
+            color: var(--accent-orange);
+            border-color: var(--accent-orange);
+        }
+
+        @media print {
+            body { background: none; }
+            .page { margin: 0; box-shadow: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="sidebar">
+            {{if .PersonalInfo.Photo}}
+            <img src="{{.PersonalInfo.Photo}}" class="profile-img" alt="Profile Picture">
+            {{end}}
+            <div class="contact-box">
+                <h3>Contacto</h3>
+                <div class="contact-item"><i class="fas fa-envelope"></i> {{.PersonalInfo.Email}}</div>
+                <div class="contact-item"><i class="fas fa-phone"></i> {{.PersonalInfo.Phone}}</div>
+                <div class="contact-item"><i class="fas fa-map-marker-alt"></i> {{.PersonalInfo.Location}}</div>
+                {{range .PersonalInfo.Links}}
+                <div class="contact-item"><i class="fab fa-{{.Name | lower}}"></i> {{.URL}}</div>
+                {{end}}
+            </div>
+
+            <h3>Tech Stack</h3>
+            {{range .Skills.Technical}}
+            <div style="margin-bottom: 15px;">
+                <div style="font-size: 0.8em; font-weight: 700; margin-bottom: 5px;">{{.Category}}</div>
+                <div class="tag-container">
+                    {{range .Items}}<span class="tag">{{.}}</span>{{end}}
+                </div>
+            </div>
+            {{end}}
+
+            <h3>Herramientas</h3>
+            <div class="tag-container">
+                {{range .Skills.Tools}}<span class="tag">{{.}}</span>{{end}}
+            </div>
+
+            <h3>Idiomas</h3>
+            {{range .Languages}}
+            <div class="contact-item" style="font-size: 0.8em;">
+                <strong>{{.Name}}:</strong> {{.Level}}
+            </div>
+            {{end}}
+
+            <h3>Otros</h3>
+            <div style="font-size: 0.75em; line-height: 1.6;">
+                <strong>Carnets:</strong> {{range $i, $v := .Others.Licenses}}{{if $i}}, {{end}}{{$v}}{{end}}<br>
+                {{range .Others.Certifications}}{{.}}<br>{{end}}
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="header">
+                <h1>{{.PersonalInfo.Name}}</h1>
+                <h2>{{.PersonalInfo.Title}}</h2>
+                <div class="bio">{{.PersonalInfo.Bio}}</div>
+            </div>
+
+            <div class="section-title">Experiencia Profesional</div>
+            {{range .Experience}}
+            <div class="exp-item">
+                <div class="exp-header">
+                    <span class="exp-company">{{.Company}}</span>
+                    <span class="exp-date">{{.Period}}</span>
+                </div>
+                <div class="exp-role">{{.Role}}</div>
+                <div class="exp-content">
+                    {{.Description}}
+                    <ul>
+                        {{range .Achievements}}<li>{{.}}</li>{{end}}
+                    </ul>
+                </div>
+            </div>
+            {{end}}
+
+            <div class="section-title">Proyectos Destacados</div>
+            {{range .Projects}}
+            <div class="exp-item">
+                <div class="exp-header">
+                    <span class="exp-company">{{.Name}}</span>
+                </div>
+                <div class="exp-content">
+                    {{.Description}}
+                    <div class="tag-container" style="margin-top: 8px;">
+                        {{range .TechStack}}<span class="tag">{{.}}</span>{{end}}
+                    </div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
+</body>
+</html>

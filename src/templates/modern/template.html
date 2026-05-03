@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Curriculum Vitae</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --header-bg: #1a2a3a;
+            --sidebar-bg: #f0f4f8;
+            --accent-color: #f39c12;
+            --text-main: #2c3e50;
+            --text-light: #7f8c8d;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            background: #e9ecef;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            background: var(--white);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .header {
+            display: flex;
+            background: var(--header-bg);
+            color: var(--white);
+            padding: 40px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .header-info { flex: 2; }
+        .header-contact {
+            flex: 1;
+            text-align: right;
+            font-size: 0.85em;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header h1 { margin: 0; font-size: 2.2em; }
+        .header h2 { margin: 5px 0 15px 0; color: var(--accent-color); font-size: 1.1em; text-transform: uppercase; }
+        .header p { font-size: 0.85em; line-height: 1.4; color: #bdc3c7; }
+
+        .main-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; }
+        .left-col { padding: 40px; border-right: 1px solid #eee; }
+        .right-col { background: var(--sidebar-bg); padding: 40px; }
+
+        .section { margin-bottom: 30px; }
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            color: var(--header-bg);
+        }
+
+        .section-title i {
+            background: var(--header-bg);
+            color: var(--white);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+        }
+
+        .exp-item { margin-bottom: 20px; }
+        .exp-header { display: flex; justify-content: space-between; font-weight: 700; font-size: 0.95em; }
+        .exp-role { color: var(--text-main); }
+        .exp-date { color: var(--accent-color); font-size: 0.85em; }
+        .exp-company { color: var(--text-light); font-size: 0.9em; margin-bottom: 5px; }
+        .exp-content { font-size: 0.82em; line-height: 1.5; }
+        .exp-content ul { padding-left: 15px; margin: 5px 0; }
+
+        .skill-item { margin-bottom: 15px; font-size: 0.82em; }
+        .skill-item h4 { margin: 0 0 5px 0; color: var(--header-bg); text-transform: uppercase; font-size: 0.9em; }
+        
+        .tag {
+            display: inline-block;
+            background: #dde4eb;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin: 2px;
+            font-size: 0.9em;
+        }
+
+        @media print {
+            body { background: none; }
+            .page { margin: 0; box-shadow: none; border-radius: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <div class="header-info">
+                <h1>{{.PersonalInfo.Name}}</h1>
+                <h2>{{.PersonalInfo.Title}}</h2>
+                <p>{{.PersonalInfo.Bio}}</p>
+            </div>
+            <div class="header-contact">
+                <div><i class="fas fa-envelope"></i> {{.PersonalInfo.Email}}</div>
+                <div><i class="fas fa-phone"></i> {{.PersonalInfo.Phone}}</div>
+                {{range .PersonalInfo.Links}}
+                <div><i class="fab fa-{{.Name | lower}}"></i> {{.URL}}</div>
+                {{end}}
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="left-col">
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-briefcase"></i> Experiencia Laboral</div>
+                    {{range .Experience}}
+                    <div class="exp-item">
+                        <div class="exp-header">
+                            <span class="exp-role">{{.Role}}</span>
+                            <span class="exp-date">{{.Period}}</span>
+                        </div>
+                        <div class="exp-company">{{.Company}}</div>
+                        <div class="exp-content">
+                            {{.Description}}
+                            <ul>
+                                {{range .Achievements}}<li>{{.}}</li>{{end}}
+                            </ul>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-tools"></i> Skills</div>
+                    {{range .Skills.Technical}}
+                    <div class="skill-item">
+                        <h4>{{.Category}}</h4>
+                        <div>{{range .Items}}<span class="tag">{{.}}</span> {{end}}</div>
+                    </div>
+                    {{end}}
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-project-diagram"></i> Proyectos</div>
+                    {{range .Projects}}
+                    <div class="skill-item">
+                        <strong>{{.Name}}</strong><br>
+                        <span style="font-size: 0.85em;">{{.Description}}</span>
+                    </div>
+                    {{end}}
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-language"></i> Idiomas</div>
+                    <div class="exp-content">
+                        {{range .Languages}}
+                        <strong>{{.Name}}:</strong> {{.Level}}<br>
+                        {{end}}
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title"><i class="fas fa-id-card"></i> Otros</div>
+                    <div class="exp-content">
+                        <strong>Carnets:</strong> {{range $i, $v := .Others.Licenses}}{{if $i}}, {{end}}{{$v}}{{end}}<br>
+                        {{range .Others.Certifications}}{{.}}<br>{{end}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
